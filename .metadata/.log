@@ -1657,3 +1657,152 @@ java.io.FileNotFoundException: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tare
 	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
 	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2026-03-18 02:23:25.280 -----------------------------------------------
+eclipse.buildId=Version 1.19.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_MX
+Framework arguments:  C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial\.project
+
+!ENTRY org.eclipse.core.resources 2 10035 2026-03-18 02:23:28.866
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2026-03-18 02:23:33.046
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-03-18 02:23:33.047
+!MESSAGE Log4j2 initialized with config file C:\Users\Crist\STM32CubeIDE\workspace_IPD439\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-03-18 02:23:39.652
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-03-18 02:23:43.003
+!MESSAGE Indexed 'tarea_1_DMA_the_rial' (3 sources, 53 headers) in 0.352 sec: 1,954 declarations; 2,863 references; 0 unresolved inclusions; 2 syntax errors; 2 unresolved names (0.042%)
+
+!ENTRY org.eclipse.ltk.ui.refactoring 4 10000 2026-03-18 02:23:52.177
+!MESSAGE Internal Error
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:816)
+	at org.eclipse.core.internal.resources.Project.delete(Project.java:359)
+	at org.eclipse.ltk.core.refactoring.resource.DeleteResourceChange.perform(DeleteResourceChange.java:150)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:247)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:284)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:210)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Contains: Could not delete 'C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial'.
+org.eclipse.core.runtime.CoreException: Could not delete: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial.
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:191)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteProject(ResourceTree.java:448)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteProject(ResourceTree.java:855)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1834)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:803)
+	at org.eclipse.core.internal.resources.Project.delete(Project.java:359)
+	at org.eclipse.ltk.core.refactoring.resource.DeleteResourceChange.perform(DeleteResourceChange.java:150)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:247)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:284)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:210)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: java.nio.file.FileSystemException: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:92)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:273)
+	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:109)
+	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1191)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.internalDelete(LocalFile.java:275)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:189)
+	... 18 more
+Contains: Could not delete 'C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial'.
+!SUBENTRY 1 org.eclipse.core.resources 4 273 2026-03-18 02:23:52.179
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 2 org.eclipse.core.resources 4 273 2026-03-18 02:23:52.179
+!MESSAGE Could not delete 'C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Could not delete: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial.
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:191)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteProject(ResourceTree.java:448)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteProject(ResourceTree.java:855)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1834)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:803)
+	at org.eclipse.core.internal.resources.Project.delete(Project.java:359)
+	at org.eclipse.ltk.core.refactoring.resource.DeleteResourceChange.perform(DeleteResourceChange.java:150)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:247)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:284)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:210)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+Caused by: java.nio.file.FileSystemException: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:92)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:273)
+	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:109)
+	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1191)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.internalDelete(LocalFile.java:275)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:189)
+	... 18 more
+!SUBENTRY 3 org.eclipse.core.filesystem 4 273 2026-03-18 02:23:52.180
+!MESSAGE Could not delete: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial.
+!STACK 0
+java.nio.file.FileSystemException: C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial: El proceso no tiene acceso al archivo porque está siendo utilizado por otro proceso
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:92)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:273)
+	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:109)
+	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1191)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.internalDelete(LocalFile.java:275)
+	at org.eclipse.core.internal.filesystem.local.LocalFile.delete(LocalFile.java:189)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteProject(ResourceTree.java:448)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteProject(ResourceTree.java:855)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1834)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:803)
+	at org.eclipse.core.internal.resources.Project.delete(Project.java:359)
+	at org.eclipse.ltk.core.refactoring.resource.DeleteResourceChange.perform(DeleteResourceChange.java:150)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.CompositeChange.perform(CompositeChange.java:278)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.lambda$0(PerformChangeOperation.java:247)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.executeChange(PerformChangeOperation.java:284)
+	at org.eclipse.ltk.internal.ui.refactoring.UIPerformChangeOperation.executeChange(UIPerformChangeOperation.java:94)
+	at org.eclipse.ltk.core.refactoring.PerformChangeOperation.run(PerformChangeOperation.java:210)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2451)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2476)
+	at org.eclipse.ltk.internal.ui.refactoring.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:89)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+!SUBENTRY 2 org.eclipse.core.resources 4 273 2026-03-18 02:23:52.180
+!MESSAGE Could not delete 'C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial'.
+
+!ENTRY org.eclipse.ui.ide 4 4 2026-03-18 02:25:18.982
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 2 1 2026-03-18 02:25:18.988
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2026-03-18 02:25:18.988
+!MESSAGE The project description file (.project) for 'tarea_1_DMA_the_rial' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
