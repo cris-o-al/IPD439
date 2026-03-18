@@ -1,0 +1,10 @@
+18:52:42 **** Incremental Build of configuration Debug for project TAREA_DMA_THERIAL ****
+make -j8 all 
+arm-none-eabi-size  TAREA_DMA_THERIAL.elf 
+   text	   data	    bss	    dec	    hex	filename
+    656	      0	   1568	   2224	    8b0	TAREA_DMA_THERIAL.elf
+Finished building: default.size.stdout
+ 
+
+18:52:42 Build Finished. 0 errors, 0 warnings. (took 202ms)
+

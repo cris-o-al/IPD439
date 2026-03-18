@@ -1,0 +1,23 @@
+18:47:57 **** Build of configuration Debug for project tarea_1_DMA_the_rial ****
+make -j8 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32l476rgtx.d" -MT"Startup/startup_stm32l476rgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32l476rgtx.o" "../Startup/startup_stm32l476rgtx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DNUCLEO_L476RG -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DNUCLEO_L476RG -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DNUCLEO_L476RG -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+../Src/main.c:22:4: warning: #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use." [-Wcpp]
+   22 |   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
+      |    ^~~~~~~
+arm-none-eabi-gcc -o "tarea_1_DMA_the_rial.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Crist\STM32CubeIDE\workspace_IPD439\tarea_1_DMA_the_rial\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="tarea_1_DMA_the_rial.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: tarea_1_DMA_the_rial.elf
+ 
+arm-none-eabi-size  tarea_1_DMA_the_rial.elf 
+arm-none-eabi-objdump -h -S tarea_1_DMA_the_rial.elf  > "tarea_1_DMA_the_rial.list"
+   text	   data	    bss	    dec	    hex	filename
+    656	      0	   1568	   2224	    8b0	tarea_1_DMA_the_rial.elf
+Finished building: default.size.stdout
+ 
+Finished building: tarea_1_DMA_the_rial.list
+ 
+
+18:47:58 Build Finished. 0 errors, 1 warnings. (took 620ms)
+
