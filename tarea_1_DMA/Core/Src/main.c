@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,11 +44,75 @@ UART_HandleTypeDef huart2;
 
 DMA_HandleTypeDef hdma_memtomem_dma1_channel1;
 /* USER CODE BEGIN PV */
-#define BUFFER_SIZE 10
-uint8_t arreglo_start_ram[BUFFER_SIZE] = {0,1,2,3,4,5,6,7,8,9};
-const uint8_t arreglo_start_flash[BUFFER_SIZE] = {0,1,2,3,4,5,6,7,8,9};
-uint8_t arreglo_end_ram[BUFFER_SIZE];
-uint8_t arreglo_end_flash[BUFFER_SIZE];
+
+uint32_t mapa_error_transfer = 0;
+//Arreglos de origen en memoria RAM
+
+uint8_t src_sram_32[32];
+uint8_t src_sram_64[64];
+uint8_t src_sram_128[128];
+uint8_t src_sram_256[256];
+uint8_t src_sram_512[512];
+uint8_t src_sram_1024[1024];
+
+//Arreglos de origen en memoria flash
+const uint8_t src_flash_32[32]   = { [0 ... 31]   = 0xAA };
+const uint8_t src_flash_64[64]   = { [0 ... 63]   = 0xBB };
+const uint8_t src_flash_128[128] = { [0 ... 127]  = 0xCC };
+const uint8_t src_flash_256[256] = { [0 ... 255]  = 0xDD };
+const uint8_t src_flash_512[512] = { [0 ... 511]  = 0xEE };
+const uint8_t src_flash_1024[1024] = { [0 ... 1023] = 0xFF };
+
+/* Origen en SRAM con memcpy */
+uint8_t src_sram_32_memcpy[32];
+uint8_t src_sram_64_memcpy[64];
+uint8_t src_sram_128_memcpy[128];
+uint8_t src_sram_256_memcpy[256];
+uint8_t src_sram_512_memcpy[512];
+uint8_t src_sram_1024_memcpy[1024];
+
+/* Origen en Flash con memcpy */
+const uint8_t src_flash_32_memcpy[32]   = { [0 ... 31]   = 0x11 };
+const uint8_t src_flash_64_memcpy[64]   = { [0 ... 63]   = 0x22 };
+const uint8_t src_flash_128_memcpy[128] = { [0 ... 127]  = 0x33 };
+const uint8_t src_flash_256_memcpy[256] = { [0 ... 255]  = 0x44 };
+const uint8_t src_flash_512_memcpy[512] = { [0 ... 511]  = 0x55 };
+const uint8_t src_flash_1024_memcpy[1024] = { [0 ... 1023] = 0x66 };
+
+
+//Arreglos de destino.
+//Notar que aunque algunos esten etiquetados como dest_flash esto no implica que esten alojados en la flash, solo es para identificar que el arreglo de origen de los datos se encuentra en la flash
+uint8_t dest_sram_32[32];
+uint8_t dest_sram_64[64];
+uint8_t dest_sram_128[128];
+uint8_t dest_sram_256[256];
+uint8_t dest_sram_512[512];
+uint8_t dest_sram_1024[1024];
+
+uint8_t dest_flash_32[32];
+uint8_t dest_flash_64[64];
+uint8_t dest_flash_128[128];
+uint8_t dest_flash_256[256];
+uint8_t dest_flash_512[512];
+uint8_t dest_flash_1024[1024];
+
+/* Destino en SRAM con memcpy */
+uint8_t dest_sram_32_memcpy[32];
+uint8_t dest_sram_64_memcpy[64];
+uint8_t dest_sram_128_memcpy[128];
+uint8_t dest_sram_256_memcpy[256];
+uint8_t dest_sram_512_memcpy[512];
+uint8_t dest_sram_1024_memcpy[1024];
+
+/* Destino para flash con memcpy */
+uint8_t dest_flash_32_memcpy[32];
+uint8_t dest_flash_64_memcpy[64];
+uint8_t dest_flash_128_memcpy[128];
+uint8_t dest_flash_256_memcpy[256];
+uint8_t dest_flash_512_memcpy[512];
+uint8_t dest_flash_1024_memcpy[1024];
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -82,7 +146,33 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  //Se llenan los arreglos de la ram con datos
+  for(int i = 0;i<1024;i++){
+	  if(i<32){
+		  src_sram_32[i] = (uint8_t)i;
+		  src_sram_32_memcpy[i] = (uint8_t)i;
+	  }
+	  if(i<64){
+		  src_sram_64[i] = (uint8_t)i;
+		  src_sram_64_memcpy[i] = (uint8_t)i;
+	  }
+	  if(i<128){
+		  src_sram_128[i] = (uint8_t)i;
+		  src_sram_128_memcpy[i] = (uint8_t)i;
+	  }
+	  if(i<256){
+	  		  src_sram_256[i] = (uint8_t)i;
+	  		  src_sram_256_memcpy[i] = (uint8_t)i;
+	  }
+	  if(i<512){
+	  		  src_sram_512[i] = (uint8_t)i;
+	  		  src_sram_512_memcpy[i] = (uint8_t)i;
+	  }
+	  if(i<1024){
+	  		  src_sram_1024[i] = (uint8_t)i;
+	  		  src_sram_1024_memcpy[i] = (uint8_t)i;
+	  }
+  }
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -98,8 +188,6 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   hdma_memtomem_dma1_channel1.XferCpltCallback = HAL_DMA_XferCpltCallback;
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)arreglo_start_ram, (uint32_t)arreglo_end_ram, BUFFER_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,7 +196,217 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+
     /* USER CODE BEGIN 3 */
+
+	  //RAM A RAM
+
+	  //Ram a Ram 32 bytes 0 y 1. 7.4us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_32, (uint32_t)dest_sram_32, 32);
+	  HAL_Delay(1000);
+
+	  //Validación de copia
+	  if (memcmp(src_sram_32, dest_sram_32, 32) != 0) {
+		  mapa_error_transfer |= (1 << 0); // Bit 0 en alto si falla la de 32 bytes de ram a ram con dma
+	  }
+	  //Ram a Ram 64 bytes 2. 9.1us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_64, (uint32_t)dest_sram_64, 64);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_64, dest_sram_64, 64) != 0) {
+		  mapa_error_transfer |= (1 << 1); // Bit 1 en alto si falla la de 64 bytes de ram a ram con dma
+	  }
+	  //Ram a Ram 128 bytes 3 y 4. 13.0us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_128, (uint32_t)dest_sram_128, 128);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_128, dest_sram_128, 128) != 0) {
+		  mapa_error_transfer |= (1 << 2); // Bit 2 en alto si falla la de 32 bytes de ram a ram con dma
+	  }
+	  //Ram a Ram 256 bytes 5. 21.8us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_256, (uint32_t)dest_sram_256, 256);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_256, dest_sram_256, 256) != 0) {
+		  mapa_error_transfer |= (1 << 3);
+	  }
+	  //Ram a Ram 512 bytes 6. 38.4us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_512, (uint32_t)dest_sram_512, 512);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_512, dest_sram_512, 512) != 0) {
+		  mapa_error_transfer |= (1 << 4);
+	  }
+	  //Ram a Ram 1024 bytes 7. 71.6us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_sram_1024, (uint32_t)dest_sram_1024, 1024);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_1024, dest_sram_1024, 1024) != 0) {
+		  mapa_error_transfer |= (1 << 5);
+	  }
+
+
+
+
+	  //FLASH A RAM
+
+	  //Flash a Ram 32 bytes 8. 7.5us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_32, (uint32_t)dest_flash_32, 32);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_32, dest_flash_32, 32) != 0) {
+		  mapa_error_transfer |= (1 << 6); // Bit 6 en alto si falla la de 32 bytes de flash a ram con dma
+	  }
+	  //Flash a Ram 64 bytes 9 y 10. 10.7us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_64, (uint32_t)dest_flash_64, 64);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_64, dest_flash_64, 64) != 0) {
+		  mapa_error_transfer |= (1 << 7); // Bit 7 en alto si falla la de 64 bytes de flash a ram con dma
+	  }
+	  //Flash a Ram 128 bytes 11. 15.9us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_128, (uint32_t)dest_flash_128, 128);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_128, dest_flash_128, 128) != 0) {
+		  mapa_error_transfer |= (1 << 8); // Bit 8 en alto si falla la de 128 bytes de flash a ram con dma
+	  }
+	  //Flash a Ram 256 bytes 12. 26.2us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_256, (uint32_t)dest_flash_256, 256);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_256, dest_flash_256, 256) != 0) {
+		  mapa_error_transfer |= (1 << 9);
+	  }
+	  //Flash a Ram 512 bytes 13. 47.1us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_512, (uint32_t)dest_flash_512, 512);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_512, dest_flash_512, 512) != 0) {
+		  mapa_error_transfer |= (1 << 10);
+	  }
+	  //Flash a Ram 1024 bytes 14. 88.8us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  HAL_DMA_Start_IT(&hdma_memtomem_dma1_channel1, (uint32_t)src_flash_1024, (uint32_t)dest_flash_1024, 1024);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_1024, dest_flash_1024, 1024) != 0) {
+		  mapa_error_transfer |= (1 << 11);
+	  }
+
+
+
+
+	  //RAM A RAM (memcpy)
+	  //Ram a Ram 32 bytes 15. 950ns
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_32_memcpy, src_sram_32_memcpy, 32);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_32_memcpy, dest_sram_32_memcpy, 32) != 0) {
+		  mapa_error_transfer |= (1 << 12); // Bit 12 en alto si falla la de 32 bytes de ram a ram con memcpy
+	  }
+	  //Ram a Ram 64 bytes 16. 1.07us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_64_memcpy, src_sram_64_memcpy, 64);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_64_memcpy, dest_sram_64_memcpy, 64) != 0) {
+		  mapa_error_transfer |= (1 << 13); // Bit 13 en alto si falla la de 64 bytes de ram a ram con memcpy
+	  }
+
+	  //Ram a Ram 128 bytes 17. 10.6us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_128_memcpy, src_sram_128_memcpy, 128);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_128_memcpy, dest_sram_128_memcpy, 128) != 0) {
+		  mapa_error_transfer |= (1 << 14);
+	  }
+
+	  //Ram a Ram 256 bytes 18. 20.2us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_256_memcpy, src_sram_256_memcpy, 256);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_256_memcpy, dest_sram_256_memcpy, 256) != 0) {
+		  mapa_error_transfer |= (1 << 15);
+	  }
+
+	  //Ram a Ram 512 bytes 19. 39.6us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_512_memcpy, src_sram_512_memcpy, 512);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_512_memcpy, dest_sram_512_memcpy, 512) != 0) {
+		  mapa_error_transfer |= (1 << 16);
+	  }
+
+	  //Ram a Ram 1024 bytes 20. 77.8us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_sram_1024_memcpy, src_sram_1024_memcpy, 1024);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_sram_1024_memcpy, dest_sram_1024_memcpy, 1024) != 0) {
+		  mapa_error_transfer |= (1 << 17);
+	  }
+
+
+
+	  //FLASH A RAM (memcpy)
+	  //Flash a Ram 32 bytes 21. 1.22us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_32_memcpy, src_flash_32_memcpy, 32);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_32_memcpy, dest_flash_32_memcpy, 32) != 0) {
+		  mapa_error_transfer |= (1 << 18); // Bit 18 en alto si falla la de 32 bytes de flash a ram con memcpy
+	  }
+
+	  //Flash a Ram 64 bytes 22. 1.54us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_64_memcpy, src_flash_64_memcpy, 64);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_64_memcpy, dest_flash_64_memcpy, 64) != 0) {
+		  mapa_error_transfer |= (1 << 19); // Bit 19 en alto si falla la de 64 bytes de flash a ram con memcpy
+	  }
+
+	  //Flash a Ram 128 bytes 23. 13.0us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_128_memcpy, src_flash_128_memcpy, 128);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_128_memcpy, dest_flash_128_memcpy, 128) != 0) {
+		  mapa_error_transfer |= (1 << 20);
+	  }
+
+	  //Flash a Ram 256 bytes 24. 25.0us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_256_memcpy, src_flash_256_memcpy, 256);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_256_memcpy, dest_flash_256_memcpy, 256) != 0) {
+		  mapa_error_transfer |= (1 << 21);
+	  }
+
+	  //Flash a Ram 512 bytes 25. 49.0us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_512_memcpy, src_flash_512_memcpy, 512);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_512_memcpy, dest_flash_512_memcpy, 512) != 0) {
+		  mapa_error_transfer |= (1 << 22);
+	  }
+
+	  //Flash a Ram 1024 bytes 26. 96.8us
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	  memcpy(dest_flash_1024_memcpy, src_flash_1024_memcpy, 1024);
+	  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	  HAL_Delay(1000);
+	  if (memcmp(src_flash_1024_memcpy, dest_flash_1024_memcpy, 1024) != 0) {  // Bit 23 en alto si falla la de 1024 bytes de flash a ram con memcpy
+		  mapa_error_transfer |= (1 << 23);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -272,8 +570,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_DMA_XferCpltCallback(DMA_HandleTypeDef *hdma)
 {
-
-    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+	if (hdma->Instance == DMA1_Channel1) {
+		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	}
 }
 /* USER CODE END 4 */
 
