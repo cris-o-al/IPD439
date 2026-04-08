@@ -426,7 +426,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
         if (byte_recibido == '\n') {
                 buffer_recepcion[indice_recepcion] = '\0'; // Fin del string
 
-                float valor_recibido = atof(buffer_recepcion); // Convertimos texto a número
+                float valor_recibido = atof(buffer_recepcion); // Convertimos texto a número float
                 osMessageQueuePut(QueueSerialHandle, &valor_recibido, 0,0); //Se envía a la cola
                 indice_recepcion = 0;
             }

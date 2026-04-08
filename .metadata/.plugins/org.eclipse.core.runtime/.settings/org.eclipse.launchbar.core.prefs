@@ -11,4 +11,4 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_1_ADC_DMA\ Debug/activeLa
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_1_DMA\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_1_DMA\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_2_part_1\ Debug/activeLaunchMode=debug
-org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_2_part_2\ Debug/activeLaunchMode=debug
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:tarea_2_part_2\ Debug/activeLaunchMode=run

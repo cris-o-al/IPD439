@@ -289,10 +289,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LOADED_GPIO_Port, LOADED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LOADED_Pin|PULSO_20_Pin|PULSO_10_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, PULSO_20_Pin|PULSO_10_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -300,15 +300,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pin : LOADED_Pin */
+  GPIO_InitStruct.Pin = LOADED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(LOADED_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LOADED_Pin PULSO_20_Pin PULSO_10_Pin */
-  GPIO_InitStruct.Pin = LOADED_Pin|PULSO_20_Pin|PULSO_10_Pin;
+  /*Configure GPIO pins : PULSO_20_Pin PULSO_10_Pin */
+  GPIO_InitStruct.Pin = PULSO_20_Pin|PULSO_10_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
